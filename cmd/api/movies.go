@@ -22,7 +22,7 @@ func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request)
 		ID:        id,
 		CreatedAt: time.Now(),
 		Title:     "Casablanca",
-		Runtime:   120,
+		Runtime:   102,
 		Genres:    []string{"drama", "romance", "war"},
 		Version:   1,
 	}
