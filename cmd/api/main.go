@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"expvar"
 	"flag"
+	"fmt"
 	"geisha84/greenlight/internal/data"
 	"geisha84/greenlight/internal/jsonlog"
 	"geisha84/greenlight/internal/mailer"
@@ -17,6 +18,8 @@ import (
 )
 
 const version = "1.0.0"
+
+var buildTime string
 
 type config struct {
 	port int
@@ -79,7 +82,15 @@ func main() {
 		return nil
 	})
 
+	displayVersion := flag.Bool("version", false, "Display version and exit")
+
 	flag.Parse()
+
+	if *displayVersion {
+		fmt.Printf("Version:\t%s\n", version)
+		fmt.Printf("Build time:\t%s\n", buildTime)
+		os.Exit(0)
+	}
 
 	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
 
