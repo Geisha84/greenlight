@@ -2,7 +2,7 @@
     email vanbavel.gijs@gmail.com
 }
 
-gijsvanbavel.nl {
+greenlight.gijsvanbavel.nl {
     respond /debug/* "Not Permitted" 403
     reverse_proxy localhost:4000
 }
