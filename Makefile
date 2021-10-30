@@ -95,6 +95,18 @@ production/connect:
 .PHONY: production/deploy/api
 production/deploy/api:
 	scp -p ./bin/linux_amd64/api greenlight@${production_host_ip}:~
-	ssh greenlight@${production_host_ip} rm -f ./migrations
+	ssh -t greenlight@${production_host_ip} '\
+		rm -rf ./migrations \
+		&& chmod +x ~/api \
+	'
 	scp -rp ./migrations greenlight@${production_host_ip}:~
-	ssh -t greenlight@${production_host_ip} 'migrate -path ~/migrations -database $$GREENLIGHT_DB_DSN up'
+	scp -p ./remote/production/api.service greenlight@${production_host_ip}:~
+	scp -p ./remote/production/Caddyfile greenlight@${production_host_ip}:~
+	ssh -t greenlight@${production_host_ip} '\
+		migrate -path ~/migrations -database $$GREENLIGHT_DB_DSN up \
+		&& sudo mv ~/api.service /etc/systemd/system/ \
+		&& sudo systemctl enable api \
+		&& sudo systemctl restart api \
+		&& sudo mv ~/Caddyfile /etc/caddy/ \
+		&& sudo systemctl reload caddy \
+	'
