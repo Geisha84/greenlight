@@ -101,12 +101,18 @@ production/deploy/api:
 	'
 	scp -rp ./migrations greenlight@${production_host_ip}:~
 	scp -p ./remote/production/api.service greenlight@${production_host_ip}:~
-	scp -p ./remote/production/Caddyfile greenlight@${production_host_ip}:~
 	ssh -t greenlight@${production_host_ip} '\
 		migrate -path ~/migrations -database $$GREENLIGHT_DB_DSN up \
 		&& sudo mv ~/api.service /etc/systemd/system/ \
 		&& sudo systemctl enable api \
 		&& sudo systemctl restart api \
-		&& sudo mv ~/Caddyfile /etc/caddy/ \
+	'
+
+## production/configure/caddyfile: configure the production Caddyfile
+.PHONY: production/configure/caddyfile
+production/configure/caddyfile:
+	rsync -P ./remote/production/Caddyfile greenlight@${production_host_ip}:~
+	ssh -t greenlight@${production_host_ip} '\
+		sudo mv ~/Caddyfile /etc/caddy/ \
 		&& sudo systemctl reload caddy \
 	'

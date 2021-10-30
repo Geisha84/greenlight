@@ -1,4 +1,8 @@
-http:// 167.99.44.167 {
+{
+    email vanbavel.gijs@gmail.com
+}
+
+gijsvanbavel.nl {
     respond /debug/* "Not Permitted" 403
     reverse_proxy localhost:4000
 }
