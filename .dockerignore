@@ -1,0 +1,5 @@
+remote
+migrations
+fixtures
+cmd/examples
+bin
