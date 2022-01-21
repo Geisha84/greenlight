@@ -1,3 +1,7 @@
-remote
+bin
 migrations
-fixtures
+remote
+vendor
+.envrc
+.gitignore
+Makefile

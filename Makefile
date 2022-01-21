@@ -24,6 +24,11 @@ confirm:
 run/api:
 	go run ./cmd/api -db-dsn=${GREENLIGHT_DB_DSN}
 
+## run/docker/api: run the cmd/api application
+.PHONY: run/docker/api
+run/docker/api:
+	docker run -d -p 4000:4000 greenlight
+
 ## db/psql: connect to the database using psql
 .PHONY: db/psql
 db/psql:
