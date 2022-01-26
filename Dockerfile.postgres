@@ -1,0 +1,6 @@
+FROM postgres
+
+ENV PORTGRES_PASSWORD=greenlight
+ENV POSTGRES_DB=greenlight
+
+COPY ./migrations/.. /docker-entrypoint-initdb.d/

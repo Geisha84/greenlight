@@ -85,6 +85,13 @@ build/api:
 	go build -ldflags=${linker_flags} -o=./bin/api ./cmd/api
 	GOOS=linux GOARCH=amd64 go build -ldflags=${linker_flags} -o=./bin/linux_amd64/api ./cmd/api
 
+## build/docker/api: build a docker image for the cmd/api application
+.PHONY: build/docker/api
+build/docker/api:
+	docker build -t greenlight .
+	docker volume create roach
+	docker network create -d bridge greenlight
+
 # ==================================================================================== #
 # PRODUCTION
 # ==================================================================================== #

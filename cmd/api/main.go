@@ -9,12 +9,13 @@ import (
 	"geisha84/greenlight/internal/data"
 	"geisha84/greenlight/internal/jsonlog"
 	"geisha84/greenlight/internal/mailer"
-	_ "github.com/lib/pq"
 	"os"
 	"runtime"
 	"strings"
 	"sync"
 	"time"
+
+	_ "github.com/lib/pq"
 )
 
 var (
@@ -97,7 +98,7 @@ func main() {
 
 	db, err := openDB(cfg)
 	if err != nil {
-		logger.PrintFatal(err, nil)
+		logger.PrintFatal(fmt.Errorf("failed to connect to %s: %w", cfg.db.dsn, err), nil)
 	}
 
 	defer db.Close()

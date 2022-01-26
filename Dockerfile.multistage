@@ -22,10 +22,12 @@ FROM gcr.io/distroless/base-debian10
 
 WORKDIR /
 
-COPY --from=build /app/cmd/api /greenlight
+COPY --from=build /app/bin/api /bin/api
 
 EXPOSE 4000
 
 USER nonroot:nonroot
 
-ENTRYPOINT [ "/greenlight" ]
+CMD [ "-db-dsn=postgres://greenlight:greenlight@localhost/greenlight" ]
+
+ENTRYPOINT [ "/bin/api" ]

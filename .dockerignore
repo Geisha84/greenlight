@@ -1,7 +1,5 @@
 bin
-migrations
 remote
 vendor
 .envrc
 .gitignore
-Makefile
