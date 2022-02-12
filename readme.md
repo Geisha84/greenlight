@@ -14,9 +14,27 @@
 
 ```CREATE EXTENSION IF NOT EXISTS citext;```
 
-```docker run -d -p 4000:4000 --net=greenlight_network --name=greenlightapp geisha84/greenlight:1.0 -db-dsn=postgres://greenlight:greenlight@postgresdb/greenlight?sslmode=disable```
+```docker run -d -p 4000:4000 --net=greenlight-network --name greenlight-api greenlight-api -db-dsn=postgres://greenlight:greenlight@greenlight-db/greenlight?sslmode=disable```
 
 
 
-docker run -d --net=greenlight_network -e POSTGRES_PASSWORD=greenlight -e POSTGRES_DB=greenlight --name postgresdb greenlight_postgres_db
 
+
+
+docker build -t greenlight-api -f Dockerfile.multistage .
+docker build -t greenlight-db -f Dockerfile.postgres .
+docker network create greenlight-network
+
+docker run -d \
+    --name greenlight-db \
+    --network greenlight-network \
+    -e POSTGRES_USER=greenlight \
+    -e POSTGRES_PASSWORD=greenlight \
+    -e POSTGRES_DB=greenlight \
+    greenlight-db
+
+docker run -d \
+    --name greenlight-api \
+    -p 4000:4000 \
+    --network greenlight-network \
+    greenlight-api -db-dsn=postgres://greenlight:greenlight@greenlight-db/greenlight?sslmode=disable

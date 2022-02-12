@@ -28,6 +28,6 @@ EXPOSE 4000
 
 USER nonroot:nonroot
 
-CMD [ "-db-dsn=postgres://greenlight:greenlight@localhost/greenlight" ]
+CMD [ "-db-dsn=postgres://greenlight:greenlight@greenlight-db/greenlight?sslmode=disable" ]
 
 ENTRYPOINT [ "/bin/api" ]
