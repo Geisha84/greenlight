@@ -1,5 +1,6 @@
 FROM postgres
 
+ENV POSTGRES_USER=greenlight
 ENV POSTGRES_PASSWORD=greenlight
 ENV POSTGRES_DB=greenlight
 
